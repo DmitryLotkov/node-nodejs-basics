@@ -10,8 +10,11 @@ const list = async () => {
 
     try {
         await fs.access(folderPath);
-    } catch {
-        throw new Error('FS operation failed'); // folder doesnt exists
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            throw new Error('FS operation failed'); // folder doesnt exists
+        }
+        throw err;
     }
 
     const files = await fs.readdir(folderPath);

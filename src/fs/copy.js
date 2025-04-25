@@ -17,7 +17,7 @@ const copy = async () => {
             throw new Error('FS operation failed');
         } catch (err) {
             if (err.code !== 'ENOENT') {
-                // ошибка означающая нет такой папки "Error NO ENTry"
+                // "Error NO ENTry"
                 throw err;
             }
         }
