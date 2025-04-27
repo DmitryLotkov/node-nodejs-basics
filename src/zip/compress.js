@@ -16,12 +16,9 @@ const compress = async () => {
     const gzip = zlib.createGzip();
 
     readableStream
-        .on('error', (error) => console.error(error))
         .pipe(gzip)
-        .on('error', (error) => console.error(error))
         .pipe(writableStream)
-        .on('error',(error) => console.error(error))
-        .on('finish', () => console.log('The file successfully compress!'));
+        .on('finish', () => console.log('The file successfully compressed!'));
 };
 
 await compress();
