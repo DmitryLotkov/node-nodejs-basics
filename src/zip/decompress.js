@@ -2,6 +2,7 @@ import {fileURLToPath} from "url";
 import path from "path";
 import {createReadStream, createWriteStream} from "fs";
 import zlib from "node:zlib";
+import fs from "fs/promises";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -14,10 +15,18 @@ const decompress = async () => {
     const writableStream  = createWriteStream(destinationPath);
     const gzip = zlib.createUnzip();
 
-    readableStream
-        .pipe(gzip)
-        .pipe(writableStream)
-        .on('finish', () => console.log('The file successfully decompressed!'));
+
+    try {
+        await fs.access(source);
+        readableStream
+            .pipe(gzip)
+            .pipe(writableStream)
+            .on('finish', () => console.log('The file successfully decompressed!'));
+
+    } catch (err){
+        console.error(err)
+    }
+
 };
 
 await decompress();
